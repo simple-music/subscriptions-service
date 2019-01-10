@@ -40,3 +40,47 @@ CREATE TRIGGER "subscription_insert_trigger"
     AFTER INSERT ON "subscription"
     FOR EACH ROW
 EXECUTE PROCEDURE subscription_insert_trigger_function();
+
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT * FROM "pg_type" WHERE "typname" = 'subscriptions_status') THEN
+        CREATE TYPE "subscriptions_status" AS (
+            "user" TEXT,
+            "num_subscribers" BIGINT,
+            "num_subscriptions" BIGINT
+        );
+    END IF;
+END$$;
+
+CREATE OR REPLACE FUNCTION get_subscriptions_status(_user_ TEXT)
+    RETURNS SETOF "subscriptions_status"
+AS $$
+    DECLARE _num_subscribers_ BIGINT;
+    DECLARE _num_subscriptions_ BIGINT;
+    DECLARE _subscriptions_status_ "subscriptions_status";
+BEGIN
+    SELECT "num_subscribers"
+    FROM "subscribers_summary"
+    WHERE "user" = _user_
+    INTO _num_subscribers_;
+
+    SELECT "num_subscriptions"
+    FROM "subscriptions_summary"
+    WHERE "user" = _user_
+    INTO _num_subscriptions_;
+
+    IF _num_subscribers_ IS NOT NULL OR _num_subscriptions_ IS NOT NULL THEN
+        IF _num_subscribers_ IS NULL THEN
+            _num_subscribers_ := 0;
+        END IF;
+
+        IF _num_subscriptions_ IS NULL THEN
+            _num_subscriptions_ := 0;
+        END IF;
+
+        SELECT _user_, _num_subscribers_, _num_subscriptions_
+        INTO _subscriptions_status_;
+
+        RETURN NEXT _subscriptions_status_;
+    END IF;
+END;
+$$ LANGUAGE PLPGSQL;
