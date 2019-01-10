@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import lombok.Data
 
 @Data
-data class NewSubscription(
+data class Subscription(
         @JsonProperty(value = "musician", required = true)
         val musician: String,
 

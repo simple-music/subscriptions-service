@@ -5,6 +5,6 @@ import ru.bmstu.iu7.simplemusic.subscriptionsservice.domain.Subscription
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.domain.SubscriptionPK
 
 interface SubscriptionRepository : JpaRepository<Subscription, SubscriptionPK> {
-   fun countSubscriptionsByInfo_Musician(musician: String): Long
-   fun countSubscriptionsByInfo_Subscriber(subscriber: String): Long
+   fun countSubscriptionsByInfoMusician(musician: String): Long
+   fun countSubscriptionsByInfoSubscriber(subscriber: String): Long
 }
