@@ -4,16 +4,13 @@ import java.io.Serializable
 import javax.persistence.*
 
 @Entity
-@Table(name = "subscription")
 data class Subscription(
     @EmbeddedId
-    val info: SubscriptionPK
+    val info: SubscriptionPK? = null
 )
 
 @Embeddable
 class SubscriptionPK(
-        @Column(name = "musician")
-        val musician: String,
-        @Column(name = "subscriber")
-        val subscriber: String
+        val musician: String = "",
+        val subscriber: String = ""
 ) : Serializable
