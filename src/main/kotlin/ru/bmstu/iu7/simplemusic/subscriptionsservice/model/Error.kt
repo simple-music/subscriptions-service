@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import lombok.Data
 
 @Data
-data class Error (
+data class Error(
         @JsonProperty(value = "message")
         val message: String
 )

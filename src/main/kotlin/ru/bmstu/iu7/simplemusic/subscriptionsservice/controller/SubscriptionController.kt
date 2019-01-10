@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.exception.ValidationException
+import ru.bmstu.iu7.simplemusic.subscriptionsservice.model.Subscription
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.model.SubscriptionsStatus
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.service.SubscriptionService
-
-import ru.bmstu.iu7.simplemusic.subscriptionsservice.model.Subscription as SubscriptionModel
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.domain.Subscription as SubscriptionDomain
 
 
@@ -15,7 +14,7 @@ import ru.bmstu.iu7.simplemusic.subscriptionsservice.domain.Subscription as Subs
 @RequestMapping("/subscriptions")
 class SubscriptionController(@Autowired val subscriptionService: SubscriptionService) {
     @PostMapping
-    fun addSubscription(@RequestBody subscription: SubscriptionModel): ResponseEntity<SubscriptionsStatus> {
+    fun addSubscription(@RequestBody subscription: Subscription): ResponseEntity<SubscriptionsStatus> {
         val status = this.subscriptionService.addSubscription(subscription)
         return ResponseEntity.ok(status)
     }
@@ -45,7 +44,7 @@ class SubscriptionController(@Autowired val subscriptionService: SubscriptionSer
     }
 
     @DeleteMapping
-    fun deleteSubscription(@RequestBody subscription: SubscriptionModel): ResponseEntity<SubscriptionsStatus?> {
+    fun deleteSubscription(@RequestBody subscription: Subscription): ResponseEntity<SubscriptionsStatus?> {
         val status = this.subscriptionService.deleteSubscription(subscription)
         return if (status == null) {
             ResponseEntity.noContent().build()

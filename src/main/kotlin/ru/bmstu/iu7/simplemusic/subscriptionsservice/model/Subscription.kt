@@ -13,7 +13,7 @@ data class Subscription(
 )
 
 @Data
-data class SubscriptionsStatus (
+data class SubscriptionsStatus(
         @JsonProperty(value = "musician")
         val musician: String,
 
