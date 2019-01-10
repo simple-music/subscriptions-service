@@ -5,8 +5,8 @@ import lombok.Data
 
 @Data
 data class NewSubscription(
-        @JsonProperty(value = "user", required = true)
-        val user: String,
+        @JsonProperty(value = "musician", required = true)
+        val musician: String,
 
         @JsonProperty(value = "subscriber", required = true)
         val subscriber: String
@@ -14,8 +14,8 @@ data class NewSubscription(
 
 @Data
 data class SubscriptionsStatus (
-        @JsonProperty(value = "user")
-        val user: String,
+        @JsonProperty(value = "musician")
+        val musician: String,
 
         @JsonProperty(value = "numSubscribers")
         val numSubscribers: Long,
