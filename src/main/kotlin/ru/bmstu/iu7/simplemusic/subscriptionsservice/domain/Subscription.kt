@@ -12,8 +12,8 @@ data class Subscription(
 
 @Embeddable
 class SubscriptionPK(
-        @Column(name = "user")
-        val user: String,
+        @Column(name = "musician")
+        val musician: String,
         @Column(name = "subscriber")
         val subscriber: String
 ) : Serializable
