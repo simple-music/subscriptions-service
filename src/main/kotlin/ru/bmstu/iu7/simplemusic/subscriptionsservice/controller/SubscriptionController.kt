@@ -1,7 +1,6 @@
 package ru.bmstu.iu7.simplemusic.subscriptionsservice.controller
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.model.NewSubscription
@@ -12,13 +11,9 @@ import ru.bmstu.iu7.simplemusic.subscriptionsservice.service.SubscriptionService
 @RequestMapping("/subscriptions")
 class SubscriptionController(@Autowired val subscriptionService: SubscriptionService) {
     @PostMapping
-    fun addSubscription(@RequestBody newSubscription: NewSubscription): ResponseEntity<Long> {
-        val numSubscriptions = this.subscriptionService.addSubscription(newSubscription)
-        return if (numSubscriptions == null) {
-            ResponseEntity.status(HttpStatus.NOT_MODIFIED.value()).build()
-        } else {
-            ResponseEntity.ok(numSubscriptions)
-        }
+    fun addSubscription(@RequestBody newSubscription: NewSubscription): ResponseEntity<SubscriptionsStatus> {
+        val status = this.subscriptionService.addSubscription(newSubscription)
+        return ResponseEntity.ok(status)
     }
 
     @GetMapping("/musicians/{musician}/status")

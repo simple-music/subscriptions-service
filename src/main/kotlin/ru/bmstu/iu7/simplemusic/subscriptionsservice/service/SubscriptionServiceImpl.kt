@@ -13,22 +13,22 @@ import ru.bmstu.iu7.simplemusic.subscriptionsservice.repository.SubscriptionRepo
 @Service
 class SubscriptionServiceImpl(@Autowired val subscriptionRepository: SubscriptionRepository) : SubscriptionService {
 
-    override fun addSubscription(newSubscription: NewSubscription): Long? {
-        return try {
-            this.subscriptionRepository.save(Subscription(
-                    info = SubscriptionPK(newSubscription.musician, newSubscription.subscriber)
-            ))
-            this.subscriptionRepository.countSubscriptionsByInfo_Subscriber(newSubscription.subscriber)
-        } catch (exception: DuplicateKeyException) {
-            null
-        }
+    override fun addSubscription(newSubscription: NewSubscription): SubscriptionsStatus {
+        this.subscriptionRepository.save(Subscription(
+                info = SubscriptionPK(newSubscription.musician, newSubscription.subscriber)
+        ))
+        return this.getStatus(newSubscription.subscriber)
     }
 
     override fun getSubscriptionsStatus(musician: String): SubscriptionsStatus {
+        return this.getStatus(musician)
+    }
+
+    private fun getStatus(musician: String): SubscriptionsStatus {
         val numSubscribers = this.subscriptionRepository
-                .countSubscriptionsByInfo_Subscriber(musician)
-        val numSubscriptions = this.subscriptionRepository
                 .countSubscriptionsByInfo_Musician(musician)
+        val numSubscriptions = this.subscriptionRepository
+                .countSubscriptionsByInfo_Subscriber(musician)
 
         return if (numSubscribers == 0L && numSubscriptions == 0L) {
             throw NotFoundException("musician not found")
