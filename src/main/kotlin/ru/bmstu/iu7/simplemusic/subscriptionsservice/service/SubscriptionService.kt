@@ -11,5 +11,5 @@ interface SubscriptionService {
     fun getSubscribers(musician: String, page: Int, size: Int): Iterable<SubscriptionDomain>
     fun getSubscriptions(musician: String, page: Int, size: Int): Iterable<SubscriptionDomain>
 
-    fun deleteSubscription(subscription: SubscriptionModel): SubscriptionsStatus
+    fun deleteSubscription(subscription: SubscriptionModel): SubscriptionsStatus?
 }
