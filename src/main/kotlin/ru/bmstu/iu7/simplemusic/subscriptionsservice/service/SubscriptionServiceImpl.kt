@@ -9,7 +9,6 @@ import ru.bmstu.iu7.simplemusic.subscriptionsservice.domain.SubscriptionPK
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.exception.NotFoundException
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.model.SubscriptionsStatus
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.repository.SubscriptionRepository
-import ru.bmstu.iu7.simplemusic.subscriptionsservice.model.Subscription as SubscriptionModel
 
 @Service
 @Transactional

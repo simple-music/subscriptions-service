@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.exception.ValidationException
-import ru.bmstu.iu7.simplemusic.subscriptionsservice.model.Subscription
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.model.SubscriptionsStatus
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.service.SubscriptionService
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.domain.Subscription as SubscriptionDomain
