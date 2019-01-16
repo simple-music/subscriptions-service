@@ -53,6 +53,12 @@ class SubscriptionController(@Autowired val subscriptionService: SubscriptionSer
         }
     }
 
+    @DeleteMapping
+    fun deleteSubscribersAndSubscriptions(@PathVariable(value = "musician") musician: String): ResponseEntity<Any> {
+        this.subscriptionService.deleteSubscribersAndSubscriptions(musician)
+        return ResponseEntity.noContent().build()
+    }
+
     fun validatePage(page: Int, size: Int) {
         if (size > 50) {
             throw ValidationException("invalid page size")

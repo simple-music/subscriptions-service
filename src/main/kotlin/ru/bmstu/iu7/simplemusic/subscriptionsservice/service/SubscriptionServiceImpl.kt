@@ -43,6 +43,11 @@ class SubscriptionServiceImpl(@Autowired val subscriptionRepository: Subscriptio
                 .findMusicianSubscriptions(musician, PageRequest.of(page, size)).content
     }
 
+    override fun deleteSubscribersAndSubscriptions(musician: String) {
+        this.subscriptionRepository
+                .deleteSubscriptionsByInfoMusicianOrInfoSubscriber(musician, musician)
+    }
+
     private fun getStatus(musician: String): SubscriptionsStatus? {
         val numSubscribers = this.subscriptionRepository
                 .countSubscriptionsByInfoMusician(musician)

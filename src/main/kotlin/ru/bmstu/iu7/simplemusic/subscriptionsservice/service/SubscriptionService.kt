@@ -10,4 +10,6 @@ interface SubscriptionService {
 
     fun getSubscribers(musician: String, page: Int, size: Int): Iterable<String>
     fun getSubscriptions(musician: String, page: Int, size: Int): Iterable<String>
+
+    fun deleteSubscribersAndSubscriptions(musician: String)
 }

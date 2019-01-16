@@ -18,4 +18,6 @@ interface SubscriptionRepository : JpaRepository<Subscription, SubscriptionPK> {
     @Query(value = "SELECT s.musician FROM subscription s WHERE s.subscriber = :musician ORDER BY s.musician",
             countQuery = "SELECT count(*) FROM subscription s WHERE s.subscriber = :musician", nativeQuery = true)
     fun findMusicianSubscriptions(musician: String, page: Pageable): Page<String>
+
+    fun deleteSubscriptionsByInfoMusicianOrInfoSubscriber(musician: String, subscriber: String)
 }
