@@ -14,11 +14,11 @@ import ru.bmstu.iu7.simplemusic.subscriptionsservice.model.Subscription as Subsc
 @Service
 @Transactional
 class SubscriptionServiceImpl(@Autowired val subscriptionRepository: SubscriptionRepository) : SubscriptionService {
-    override fun addSubscription(subscription: SubscriptionModel): SubscriptionsStatus {
+    override fun addSubscription(musician: String, subscriber: String): SubscriptionsStatus {
         this.subscriptionRepository.save(Subscription(
-                info = SubscriptionPK(subscription.musician, subscription.subscriber)
+                info = SubscriptionPK(musician, subscriber)
         ))
-        return this.getStatus(subscription.subscriber)!!
+        return this.getStatus(subscriber)!!
     }
 
     override fun getSubscriptionsStatus(musician: String): SubscriptionsStatus {
@@ -35,11 +35,13 @@ class SubscriptionServiceImpl(@Autowired val subscriptionRepository: Subscriptio
                 .findMusicianSubscriptions(musician, PageRequest.of(page, size)).content
     }
 
-    override fun deleteSubscription(subscription: SubscriptionModel): SubscriptionsStatus? {
-        this.subscriptionRepository.delete(Subscription(
-                info = SubscriptionPK(subscription.musician, subscription.subscriber)
-        ))
-        return getStatus(subscription.musician)
+    override fun deleteSubscription(musician: String, subscriber: String): SubscriptionsStatus? {
+        val info = SubscriptionPK(musician, subscriber)
+        if (!this.subscriptionRepository.existsById(info)) {
+            throw NotFoundException("subscription not found")
+        }
+        this.subscriptionRepository.deleteById(info)
+        return getStatus(musician)
     }
 
     private fun getStatus(musician: String): SubscriptionsStatus? {

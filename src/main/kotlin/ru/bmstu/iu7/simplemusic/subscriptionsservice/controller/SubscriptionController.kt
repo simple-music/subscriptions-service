@@ -11,21 +11,22 @@ import ru.bmstu.iu7.simplemusic.subscriptionsservice.domain.Subscription as Subs
 
 
 @RestController
-@RequestMapping("/subscriptions")
+@RequestMapping("/musicians/{musician}")
 class SubscriptionController(@Autowired val subscriptionService: SubscriptionService) {
-    @PostMapping
-    fun addSubscription(@RequestBody subscription: Subscription): ResponseEntity<SubscriptionsStatus> {
-        val status = this.subscriptionService.addSubscription(subscription)
+    @PostMapping("/subscribers/{subscriber}")
+    fun addSubscription(@PathVariable("musician") musician: String,
+                        @PathVariable("subscriber") subscriber: String): ResponseEntity<SubscriptionsStatus> {
+        val status = this.subscriptionService.addSubscription(musician, subscriber)
         return ResponseEntity.ok(status)
     }
 
-    @GetMapping("/musicians/{musician}/status")
+    @GetMapping("/status")
     fun getSubscriptionsStatus(@PathVariable(value = "musician") musician: String): ResponseEntity<SubscriptionsStatus> {
         val status = this.subscriptionService.getSubscriptionsStatus(musician)
         return ResponseEntity.ok(status)
     }
 
-    @GetMapping("/musicians/{musician}/subscribers")
+    @GetMapping("/subscribers")
     fun getSubscribers(@PathVariable(value = "musician") musician: String,
                        @RequestParam(value = "page", required = false, defaultValue = "0") page: Int,
                        @RequestParam(value = "size", required = false, defaultValue = "10") size: Int): ResponseEntity<Iterable<String>> {
@@ -34,7 +35,7 @@ class SubscriptionController(@Autowired val subscriptionService: SubscriptionSer
         return ResponseEntity.ok(subscriptions)
     }
 
-    @GetMapping("/musicians/{musician}/subscriptions")
+    @GetMapping("/subscriptions")
     fun getSubscriptions(@PathVariable(value = "musician") musician: String,
                          @RequestParam(value = "page", required = false, defaultValue = "0") page: Int,
                          @RequestParam(value = "size", required = false, defaultValue = "10") size: Int): ResponseEntity<Iterable<String>> {
@@ -43,9 +44,10 @@ class SubscriptionController(@Autowired val subscriptionService: SubscriptionSer
         return ResponseEntity.ok(subscriptions)
     }
 
-    @DeleteMapping
-    fun deleteSubscription(@RequestBody subscription: Subscription): ResponseEntity<SubscriptionsStatus?> {
-        val status = this.subscriptionService.deleteSubscription(subscription)
+    @DeleteMapping("/subscriptions/{subscription}")
+    fun deleteSubscription(@PathVariable("musician") musician: String,
+                           @PathVariable("subscription") subscription: String): ResponseEntity<SubscriptionsStatus?> {
+        val status = this.subscriptionService.deleteSubscription(subscription, musician)
         return if (status == null) {
             ResponseEntity.noContent().build()
         } else {
