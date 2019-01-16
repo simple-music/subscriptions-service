@@ -28,7 +28,7 @@ class SubscriptionController(@Autowired val subscriptionService: SubscriptionSer
     @GetMapping("/musicians/{musician}/subscribers")
     fun getSubscribers(@PathVariable(value = "musician") musician: String,
                        @RequestParam(value = "page", required = false, defaultValue = "0") page: Int,
-                       @RequestParam(value = "size", required = false, defaultValue = "10") size: Int): ResponseEntity<Iterable<SubscriptionDomain>> {
+                       @RequestParam(value = "size", required = false, defaultValue = "10") size: Int): ResponseEntity<Iterable<String>> {
         this.validatePage(page, size)
         val subscriptions = this.subscriptionService.getSubscribers(musician, page, size)
         return ResponseEntity.ok(subscriptions)
@@ -37,7 +37,7 @@ class SubscriptionController(@Autowired val subscriptionService: SubscriptionSer
     @GetMapping("/musicians/{musician}/subscriptions")
     fun getSubscriptions(@PathVariable(value = "musician") musician: String,
                          @RequestParam(value = "page", required = false, defaultValue = "0") page: Int,
-                         @RequestParam(value = "size", required = false, defaultValue = "10") size: Int): ResponseEntity<Iterable<SubscriptionDomain>> {
+                         @RequestParam(value = "size", required = false, defaultValue = "10") size: Int): ResponseEntity<Iterable<String>> {
         this.validatePage(page, size)
         val subscriptions = this.subscriptionService.getSubscriptions(musician, page, size)
         return ResponseEntity.ok(subscriptions)

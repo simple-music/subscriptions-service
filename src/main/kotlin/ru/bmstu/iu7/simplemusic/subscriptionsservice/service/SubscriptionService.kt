@@ -8,8 +8,8 @@ interface SubscriptionService {
     fun addSubscription(subscription: Subscription): SubscriptionsStatus
     fun getSubscriptionsStatus(musician: String): SubscriptionsStatus
 
-    fun getSubscribers(musician: String, page: Int, size: Int): Iterable<SubscriptionDomain>
-    fun getSubscriptions(musician: String, page: Int, size: Int): Iterable<SubscriptionDomain>
+    fun getSubscribers(musician: String, page: Int, size: Int): Iterable<String>
+    fun getSubscriptions(musician: String, page: Int, size: Int): Iterable<String>
 
     fun deleteSubscription(subscription: Subscription): SubscriptionsStatus?
 }

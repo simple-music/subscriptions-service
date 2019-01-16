@@ -25,14 +25,14 @@ class SubscriptionServiceImpl(@Autowired val subscriptionRepository: Subscriptio
         return this.getStatus(musician) ?: throw NotFoundException("musician not found")
     }
 
-    override fun getSubscribers(musician: String, page: Int, size: Int): Iterable<Subscription> {
+    override fun getSubscribers(musician: String, page: Int, size: Int): Iterable<String> {
         return this.subscriptionRepository
-                .findSubscriptionsByInfoMusician(musician, PageRequest.of(page, size)).content
+                .findMusicianSubscribers(musician, PageRequest.of(page, size)).content
     }
 
-    override fun getSubscriptions(musician: String, page: Int, size: Int): Iterable<Subscription> {
+    override fun getSubscriptions(musician: String, page: Int, size: Int): Iterable<String> {
         return this.subscriptionRepository
-                .findSubscriptionsByInfoSubscriber(musician, PageRequest.of(page, size)).content
+                .findMusicianSubscriptions(musician, PageRequest.of(page, size)).content
     }
 
     override fun deleteSubscription(subscription: SubscriptionModel): SubscriptionsStatus? {
