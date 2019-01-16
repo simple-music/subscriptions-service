@@ -20,6 +20,15 @@ class SubscriptionServiceImpl(@Autowired val subscriptionRepository: Subscriptio
         return this.getStatus(subscriber)!!
     }
 
+    override fun deleteSubscription(musician: String, subscriber: String): SubscriptionsStatus? {
+        val info = SubscriptionPK(musician, subscriber)
+        if (!this.subscriptionRepository.existsById(info)) {
+            throw NotFoundException("subscription not found")
+        }
+        this.subscriptionRepository.deleteById(info)
+        return getStatus(musician)
+    }
+
     override fun getSubscriptionsStatus(musician: String): SubscriptionsStatus {
         return this.getStatus(musician) ?: throw NotFoundException("musician not found")
     }
@@ -32,15 +41,6 @@ class SubscriptionServiceImpl(@Autowired val subscriptionRepository: Subscriptio
     override fun getSubscriptions(musician: String, page: Int, size: Int): Iterable<String> {
         return this.subscriptionRepository
                 .findMusicianSubscriptions(musician, PageRequest.of(page, size)).content
-    }
-
-    override fun deleteSubscription(musician: String, subscriber: String): SubscriptionsStatus? {
-        val info = SubscriptionPK(musician, subscriber)
-        if (!this.subscriptionRepository.existsById(info)) {
-            throw NotFoundException("subscription not found")
-        }
-        this.subscriptionRepository.deleteById(info)
-        return getStatus(musician)
     }
 
     private fun getStatus(musician: String): SubscriptionsStatus? {
