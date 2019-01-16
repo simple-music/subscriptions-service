@@ -10,15 +10,15 @@ import ru.bmstu.iu7.simplemusic.subscriptionsservice.model.Error
 
 @RestControllerAdvice
 class ExceptionMapper {
-    @ExceptionHandler(ValidationException::class)
-    fun handleDuplicateException(exception: ValidationException): ResponseEntity<Error> {
-        val error = Error(exception.message!!)
-        return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(error)
-    }
-
     @ExceptionHandler(NotFoundException::class)
     fun handleNotFoundException(exception: NotFoundException): ResponseEntity<Error> {
         val error = Error(exception.message!!)
         return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(error)
+    }
+
+    @ExceptionHandler(ValidationException::class)
+    fun handleValidationException(exception: ValidationException): ResponseEntity<Error> {
+        val error = Error(exception.message!!)
+        return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(error)
     }
 }

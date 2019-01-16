@@ -14,12 +14,12 @@ interface SubscriptionRepository : JpaRepository<Subscription, SubscriptionPK> {
     fun existsByInfoMusician(musician: String): Boolean
     fun existsByInfoSubscriber(subscriber: String): Boolean
 
-    @Query(value = "SELECT s.subscriber FROM subscription s WHERE s.musician = :musician ORDER BY s.subscriber",
-            countQuery = "SELECT count(*) FROM subscription s WHERE s.musician = :musician", nativeQuery = true)
+    @Query(value = "SELECT s.subscriber FROM subscription s WHERE s.musician = :user ORDER BY s.subscriber",
+            countQuery = "SELECT count(*) FROM subscription s WHERE s.musician = :user", nativeQuery = true)
     fun findMusicianSubscribers(musician: String, page: Pageable): Page<String>
 
-    @Query(value = "SELECT s.musician FROM subscription s WHERE s.subscriber = :musician ORDER BY s.musician",
-            countQuery = "SELECT count(*) FROM subscription s WHERE s.subscriber = :musician", nativeQuery = true)
+    @Query(value = "SELECT s.musician FROM subscription s WHERE s.subscriber = :user ORDER BY s.musician",
+            countQuery = "SELECT count(*) FROM subscription s WHERE s.subscriber = :user", nativeQuery = true)
     fun findMusicianSubscriptions(musician: String, page: Pageable): Page<String>
 
     fun deleteSubscriptionsByInfoMusicianOrInfoSubscriber(musician: String, subscriber: String)

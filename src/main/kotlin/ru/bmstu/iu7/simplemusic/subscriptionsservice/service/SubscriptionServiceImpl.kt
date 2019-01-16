@@ -13,7 +13,7 @@ import ru.bmstu.iu7.simplemusic.subscriptionsservice.repository.SubscriptionRepo
 @Service
 @Transactional
 class SubscriptionServiceImpl(@Autowired val subscriptionRepository: SubscriptionRepository) : SubscriptionService {
-    private val notFoundException = NotFoundException("musician not found")
+    private val notFoundException = NotFoundException("user not found")
 
     override fun addSubscription(musician: String, subscriber: String): SubscriptionsStatus {
         this.subscriptionRepository.save(Subscription(
