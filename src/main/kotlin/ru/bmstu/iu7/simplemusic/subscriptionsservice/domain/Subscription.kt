@@ -13,6 +13,9 @@ data class Subscription(
 
 @Embeddable
 class SubscriptionPK(
+        @Suppress(names = ["unused"])
         val musician: String = "",
+
+        @Suppress(names = ["unused"])
         val subscriber: String = ""
 ) : Serializable
