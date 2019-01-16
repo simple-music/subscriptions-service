@@ -13,6 +13,8 @@ import ru.bmstu.iu7.simplemusic.subscriptionsservice.repository.SubscriptionRepo
 @Service
 @Transactional
 class SubscriptionServiceImpl(@Autowired val subscriptionRepository: SubscriptionRepository) : SubscriptionService {
+    private val notFoundException = NotFoundException("musician not found")
+
     override fun addSubscription(musician: String, subscriber: String): SubscriptionsStatus {
         this.subscriptionRepository.save(Subscription(
                 info = SubscriptionPK(musician, subscriber)
@@ -23,22 +25,28 @@ class SubscriptionServiceImpl(@Autowired val subscriptionRepository: Subscriptio
     override fun deleteSubscription(musician: String, subscriber: String): SubscriptionsStatus? {
         val info = SubscriptionPK(musician, subscriber)
         if (!this.subscriptionRepository.existsById(info)) {
-            throw NotFoundException("subscription not found")
+            throw this.notFoundException
         }
         this.subscriptionRepository.deleteById(info)
         return getStatus(musician)
     }
 
     override fun getSubscriptionsStatus(musician: String): SubscriptionsStatus {
-        return this.getStatus(musician) ?: throw NotFoundException("musician not found")
+        return this.getStatus(musician) ?: throw this.notFoundException
     }
 
     override fun getSubscribers(musician: String, page: Int, size: Int): Iterable<String> {
+        if (!this.subscriptionRepository.existsByInfoMusician(musician)) {
+            throw this.notFoundException
+        }
         return this.subscriptionRepository
                 .findMusicianSubscribers(musician, PageRequest.of(page, size)).content
     }
 
     override fun getSubscriptions(musician: String, page: Int, size: Int): Iterable<String> {
+        if (!this.subscriptionRepository.existsByInfoSubscriber(musician)) {
+            throw this.notFoundException
+        }
         return this.subscriptionRepository
                 .findMusicianSubscriptions(musician, PageRequest.of(page, size)).content
     }
