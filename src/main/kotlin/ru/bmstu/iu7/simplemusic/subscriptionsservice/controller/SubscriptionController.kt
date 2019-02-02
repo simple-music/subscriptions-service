@@ -19,6 +19,13 @@ class SubscriptionController(@Autowired val subscriptionService: SubscriptionSer
         return ResponseEntity.ok(status)
     }
 
+    @GetMapping(value = ["/subscriptions/{subscription}"])
+    fun checkSubscription(@PathVariable(value = "user") user: String,
+                          @PathVariable(value = "subscription") subscription: String): ResponseEntity<Any> {
+        this.subscriptionService.checkSubscription(subscription, user)
+        return ResponseEntity.ok().build()
+    }
+
     @DeleteMapping(value = ["/subscriptions/{subscription}"])
     fun deleteSubscription(@PathVariable(value = "user") user: String,
                            @PathVariable(value = "subscription") subscription: String): ResponseEntity<SubscriptionsStatus?> {

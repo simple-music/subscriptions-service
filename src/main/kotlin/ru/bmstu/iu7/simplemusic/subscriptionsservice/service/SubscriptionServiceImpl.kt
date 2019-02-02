@@ -22,6 +22,12 @@ class SubscriptionServiceImpl(@Autowired val subscriptionRepository: Subscriptio
         return this.getStatus(subscriber)!!
     }
 
+    override fun checkSubscription(musician: String, subscriber: String) {
+        this.subscriptionRepository
+                .findById(SubscriptionPK(musician, subscriber))
+                .orElseThrow{ this.notFoundException }
+    }
+
     override fun deleteSubscription(musician: String, subscriber: String): SubscriptionsStatus? {
         val info = SubscriptionPK(musician, subscriber)
         if (!this.subscriptionRepository.existsById(info)) {

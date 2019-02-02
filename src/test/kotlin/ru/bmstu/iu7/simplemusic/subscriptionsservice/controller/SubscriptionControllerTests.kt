@@ -23,7 +23,7 @@ import kotlin.random.Random
 
 @RunWith(SpringRunner::class)
 @WebMvcTest(controllers = [SubscriptionController::class], secure = false)
-class MusicianControllerTests {
+class SubscriptionControllerTests {
     @Autowired
     private val mockMvc: MockMvc? = null
 
@@ -52,6 +52,34 @@ class MusicianControllerTests {
                         .status().isOk)
                 .andExpect(MockMvcResultMatchers
                         .content().string(statusStr))
+    }
+
+    @Test
+    fun checkSubscription() {
+        val user = this.generateUser()
+        val subscription = this.generateUser()
+
+        Mockito
+                .doNothing().`when`(this.mockService!!)
+                .checkSubscription(subscription, user)
+
+        this.mockMvc!!
+                .perform(MockMvcRequestBuilders
+                        .get("/users/$user/subscriptions/$subscription"))
+                .andExpect(MockMvcResultMatchers
+                        .status().isOk)
+
+        Mockito
+                .doThrow(this.notFoundException).`when`(this.mockService)
+                .checkSubscription(subscription, user)
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get("/users/$user/subscriptions/$subscription"))
+                .andExpect(MockMvcResultMatchers
+                        .status().isNotFound)
+                .andExpect(MockMvcResultMatchers
+                        .content().string(this.notFoundErrorStr))
     }
 
     @Test

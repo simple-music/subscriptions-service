@@ -4,6 +4,7 @@ import ru.bmstu.iu7.simplemusic.subscriptionsservice.model.SubscriptionsStatus
 
 interface SubscriptionService {
     fun addSubscription(musician: String, subscriber: String): SubscriptionsStatus
+    fun checkSubscription(musician: String, subscriber: String)
     fun deleteSubscription(musician: String, subscriber: String): SubscriptionsStatus?
 
     fun getSubscriptionsStatus(musician: String): SubscriptionsStatus
