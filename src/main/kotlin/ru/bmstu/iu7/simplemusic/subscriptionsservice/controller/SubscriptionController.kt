@@ -1,6 +1,7 @@
 package ru.bmstu.iu7.simplemusic.subscriptionsservice.controller
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.constant.Constant
@@ -48,7 +49,7 @@ class SubscriptionController(@Autowired val subscriptionService: SubscriptionSer
                        @RequestParam(value = "page", required = false,
                                defaultValue = Constant.DEFAULT_PAGE_INDEX.toString()) page: Int,
                        @RequestParam(value = "size", required = false,
-                               defaultValue = Constant.DEFAULT_PAGE_SIZE.toString()) size: Int): ResponseEntity<Iterable<String>> {
+                               defaultValue = Constant.DEFAULT_PAGE_SIZE.toString()) size: Int): ResponseEntity<Page<String>> {
         this.validatePage(page, size)
         val subscriptions = this.subscriptionService.getSubscribers(user, page, size)
         return ResponseEntity.ok(subscriptions)
@@ -59,7 +60,7 @@ class SubscriptionController(@Autowired val subscriptionService: SubscriptionSer
                          @RequestParam(value = "page", required = false,
                                  defaultValue = Constant.DEFAULT_PAGE_INDEX.toString()) page: Int,
                          @RequestParam(value = "size", required = false,
-                                 defaultValue = Constant.DEFAULT_PAGE_SIZE.toString()) size: Int): ResponseEntity<Iterable<String>> {
+                                 defaultValue = Constant.DEFAULT_PAGE_SIZE.toString()) size: Int): ResponseEntity<Page<String>> {
         this.validatePage(page, size)
         val subscriptions = this.subscriptionService.getSubscriptions(user, page, size)
         return ResponseEntity.ok(subscriptions)

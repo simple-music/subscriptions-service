@@ -1,6 +1,7 @@
 package ru.bmstu.iu7.simplemusic.subscriptionsservice.service
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -41,20 +42,20 @@ class SubscriptionServiceImpl(@Autowired val subscriptionRepository: Subscriptio
         return this.getStatus(musician) ?: throw this.notFoundException
     }
 
-    override fun getSubscribers(musician: String, page: Int, size: Int): Iterable<String> {
+    override fun getSubscribers(musician: String, page: Int, size: Int): Page<String> {
         if (!this.subscriptionRepository.existsByInfoMusician(musician)) {
             throw this.notFoundException
         }
         return this.subscriptionRepository
-                .findMusicianSubscribers(musician, PageRequest.of(page, size)).content
+                .findMusicianSubscribers(musician, PageRequest.of(page, size))
     }
 
-    override fun getSubscriptions(musician: String, page: Int, size: Int): Iterable<String> {
+    override fun getSubscriptions(musician: String, page: Int, size: Int): Page<String> {
         if (!this.subscriptionRepository.existsByInfoSubscriber(musician)) {
             throw this.notFoundException
         }
         return this.subscriptionRepository
-                .findMusicianSubscriptions(musician, PageRequest.of(page, size)).content
+                .findMusicianSubscriptions(musician, PageRequest.of(page, size))
     }
 
     override fun deleteSubscribersAndSubscriptions(musician: String) {

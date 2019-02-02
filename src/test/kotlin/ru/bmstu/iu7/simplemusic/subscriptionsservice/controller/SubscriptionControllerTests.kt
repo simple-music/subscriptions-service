@@ -7,6 +7,7 @@ import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.data.domain.PageImpl
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
@@ -161,7 +162,7 @@ class SubscriptionControllerTests {
     fun getSubscribers() {
         val user = this.generateUser()
 
-        val subscribers = this.generateUsers()
+        val subscribers = PageImpl<String>(this.generateUsers().toList())
         val subscribersStr = this.mapObject(subscribers)
 
         Mockito
@@ -212,7 +213,7 @@ class SubscriptionControllerTests {
     fun getSubscriptions() {
         val user = this.generateUser()
 
-        val subscriptions = this.generateUsers()
+        val subscriptions = PageImpl<String>(this.generateUsers().toList())
         val subscriptionsStr = this.mapObject(subscriptions)
 
         Mockito

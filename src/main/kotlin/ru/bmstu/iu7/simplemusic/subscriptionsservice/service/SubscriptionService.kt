@@ -1,5 +1,6 @@
 package ru.bmstu.iu7.simplemusic.subscriptionsservice.service
 
+import org.springframework.data.domain.Page
 import ru.bmstu.iu7.simplemusic.subscriptionsservice.model.SubscriptionsStatus
 
 interface SubscriptionService {
@@ -9,8 +10,8 @@ interface SubscriptionService {
 
     fun getSubscriptionsStatus(musician: String): SubscriptionsStatus
 
-    fun getSubscribers(musician: String, page: Int, size: Int): Iterable<String>
-    fun getSubscriptions(musician: String, page: Int, size: Int): Iterable<String>
+    fun getSubscribers(musician: String, page: Int, size: Int): Page<String>
+    fun getSubscriptions(musician: String, page: Int, size: Int): Page<String>
 
     fun deleteSubscribersAndSubscriptions(musician: String)
 }
