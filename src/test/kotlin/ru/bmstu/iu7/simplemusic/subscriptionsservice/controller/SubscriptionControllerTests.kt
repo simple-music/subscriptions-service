@@ -178,19 +178,6 @@ class SubscriptionControllerTests {
                 .andExpect(MockMvcResultMatchers
                         .content().string(subscribersStr))
 
-        Mockito
-                .`when`(this.mockService.getSubscribers(
-                        Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt())
-                ).thenThrow(this.notFoundException)
-
-        this.mockMvc
-                .perform(MockMvcRequestBuilders
-                        .get("/users/$user/subscribers"))
-                .andExpect(MockMvcResultMatchers
-                        .status().isNotFound)
-                .andExpect(MockMvcResultMatchers
-                        .content().string(this.notFoundErrorStr))
-
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/users/$user/subscribers?page=-1"))
@@ -228,19 +215,6 @@ class SubscriptionControllerTests {
                         .status().isOk)
                 .andExpect(MockMvcResultMatchers
                         .content().string(subscriptionsStr))
-
-        Mockito
-                .`when`(this.mockService.getSubscriptions(
-                        Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt())
-                ).thenThrow(this.notFoundException)
-
-        this.mockMvc
-                .perform(MockMvcRequestBuilders
-                        .get("/users/$user/subscriptions"))
-                .andExpect(MockMvcResultMatchers
-                        .status().isNotFound)
-                .andExpect(MockMvcResultMatchers
-                        .content().string(this.notFoundErrorStr))
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders

@@ -43,17 +43,11 @@ class SubscriptionServiceImpl(@Autowired val subscriptionRepository: Subscriptio
     }
 
     override fun getSubscribers(musician: String, page: Int, size: Int): Page<String> {
-        if (!this.subscriptionRepository.existsByInfoMusician(musician)) {
-            throw this.notFoundException
-        }
         return this.subscriptionRepository
                 .findMusicianSubscribers(musician, PageRequest.of(page, size))
     }
 
     override fun getSubscriptions(musician: String, page: Int, size: Int): Page<String> {
-        if (!this.subscriptionRepository.existsByInfoSubscriber(musician)) {
-            throw this.notFoundException
-        }
         return this.subscriptionRepository
                 .findMusicianSubscriptions(musician, PageRequest.of(page, size))
     }
