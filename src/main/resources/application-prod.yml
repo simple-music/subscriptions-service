@@ -17,8 +17,8 @@ spring:
       discovery:
         instanceId: ${spring.application.name}:${random.value}
         health-check-interval: 10s
-          health-check-timeout: 20s
-          health-check-critical-timeout: 20s
+        health-check-timeout: 20s
+        health-check-critical-timeout: 20s
 
 security:
   service-id: subscriptions
